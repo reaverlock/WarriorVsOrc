@@ -4,7 +4,7 @@ import tornado.web
 import tornado.websocket
 import tornado.ioloop
 
-from tornado.escape import json_decode  # , json_encode
+# from tornado.escape import json_decode  # , json_encode
 from random import randint
 
 
@@ -15,10 +15,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         self.write_message("You are connected")
 
     def on_message(self, message):
-        data = json_decode(message)
+        data = message
+
         print data
+        print data.get('buenos')
         try:
-            if data.get('type') == 'warriorAttack':
+            if data['buenos']['primero']['type'] == 'warriorAttack':
                 attack = int(data.get('attack'))
                 defense = int(data.get('defense'))
                 evade = int(data.get('evade'))

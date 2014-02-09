@@ -13,7 +13,8 @@ var allCharacters = {
 //esta es solo para probar, debe ser borrada
 
 var party = {
-    "buenos": [{
+    "buenos": {
+        "primero": {
             "profession": "warrior",
             "name": "Pedrito",
             "type": "warriorAttack",
@@ -22,8 +23,9 @@ var party = {
             "health": 150,
             "evade": 5,
             "crit": 5,
-            "status": "none",
-        }, {
+            "status": "none"
+        },
+        "segundo": {
             "profession": "mage",
             "name": "esencito",
             "type": "mageAttack",
@@ -32,32 +34,33 @@ var party = {
             "health": 20,
             "evade": 30,
             "crit": 5,
-            "status": "none",
+            "status": "none"
         }
-
-    ],
-    "malos": [{
-        "profession": "rogue",
-        "name": "Orquito",
-        "type": "minionAttack",
-        "attack": 100,
-        "defense": 80,
-        "health": 150,
-        "evade": 5,
-        "crit": 5,
-        "status": "none",
-    }, {
-        "profession": "minionazo",
-        "name": "Simurito",
-        "type": "enemyAttack",
-        "attack": 100,
-        "defense": 80,
-        "health": 150,
-        "evade": 5,
-        "crit": 5,
-        "status": "none",
-
-    }],
+    },
+    "malos": {
+        "primero": {
+            "profession": "rogue",
+            "name": "Orquito",
+            "type": "minionAttack",
+            "attack": 100,
+            "defense": 80,
+            "health": 150,
+            "evade": 5,
+            "crit": 5,
+            "status": "none"
+        },
+        "segundo": {
+            "profession": "minionazo",
+            "name": "Simurito",
+            "type": "enemyAttack",
+            "attack": 100,
+            "defense": 80,
+            "health": 150,
+            "evade": 5,
+            "crit": 5,
+            "status": "none"
+        }
+    }
 }
 /**
  * set up the actions and global variables on the page
@@ -112,8 +115,8 @@ $(document).ready(function() {
         if (message.health == 'R.I.P') {
             $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
         } else {
-            connection.send(party); // JSON.stringify(party) cambio aquí a party para ver que pasa
-            console.log(party);
+            connection.send(JSON.stringify(party)); // JSON.stringify(party) cambio aquí a party para ver que pasa
+            console.log(JSON.stringify(party));
         }
 
         // mensaje regresado x el server
@@ -152,7 +155,7 @@ $(document).ready(function() {
             'evade': minionEvade,
         }
         if (message.health == 'R.I.P') {
-            $( "<p class='deadText'>El oponente ya está muerto</p>" ).prependTo( "#output" );
+            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
         } else {
             connection.send(JSON.stringify(message));
             console.log(message);
@@ -236,7 +239,7 @@ $(document).ready(function() {
             'evade': playerEvade,
         }
         if (message.health == 'R.I.P') {
-            $( "<p class='deadText'>El oponente ya está muerto</p>" ).prependTo( "#output" );
+            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
         } else {
             connection.send(JSON.stringify(message));
             console.log(message);
