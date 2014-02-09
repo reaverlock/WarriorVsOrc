@@ -1,0 +1,97 @@
+/* assets/css/websockettester.css */
+
+/* Basic layout */
+body {
+	text-align: center;
+}
+#description {
+	margin: 10px 0px;
+}
+#content {
+	margin: 0px auto;
+	width: 900px;
+	text-align: left;
+}
+
+
+/* widgets */
+#serveruri {
+	width: 250px;
+}
+#send {
+	float: right;
+}
+#serveruri {
+	margin-right: 10px;
+}
+#connected {
+	margin-bottom: 10px;
+	font-size: 1.4em;
+}
+#input {
+	margin-right: 20px;
+}
+
+#warrior, #minion{
+	float: left;
+	
+	border-radius: 20px;
+	padding: 20px;
+
+}
+
+#warrior{
+	background: #0f3312;
+}
+
+#minion{
+	background: #1a123f;
+
+}
+
+#warrior img{
+	float: left;
+
+}
+
+#minion img{
+	float: left;
+	height: 64px;
+	width: 64px;
+}
+
+#warrior button, #minion button {
+	float: right;
+	border-radius: 10px;
+	margin: 5px;
+}
+
+
+.skills{
+	background: black;
+	border-radius: 10px;
+	padding: 10px;
+	list-style: none;
+	float: left;
+	color: white;
+}
+
+.skills li, .skills span{
+	display: inline-block;
+	float: left;
+	margin: 10px;
+}
+
+#output{
+	height: 100px;
+	float: left;
+	border-radius: 10px;
+	background: #444;
+	color: white;
+	margin: 20px auto;
+	padding: 10px 20px;
+}
+
+#outputText{
+	display: inline-block;
+}
