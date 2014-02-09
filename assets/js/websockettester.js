@@ -4,6 +4,61 @@
 
 var KEY_SERVER_URI = "ws://localhost:8888";
 var connection;
+//party completa que se enviará
+var allCharacters = {
+    "party": [],
+    "enemies": [],
+}
+
+//esta es solo para probar, debe ser borrada
+
+var party = {
+    "buenos": [{
+            "profession": "warrior",
+            "name": "Pedrito",
+            "type": "warriorAttack",
+            "attack": 100,
+            "defense": 80,
+            "health": 150,
+            "evade": 5,
+            "crit": 5,
+            "status": "none",
+        }, {
+            "profession": "mage",
+            "name": "esencito",
+            "type": "mageAttack",
+            "attack": 30,
+            "defense": 50,
+            "health": 20,
+            "evade": 30,
+            "crit": 5,
+            "status": "none",
+        }
+
+    ],
+    "malos": [{
+        "profession": "rogue",
+        "name": "Orquito",
+        "type": "minionAttack",
+        "attack": 100,
+        "defense": 80,
+        "health": 150,
+        "evade": 5,
+        "crit": 5,
+        "status": "none",
+    }, {
+        "profession": "minionazo",
+        "name": "Simurito",
+        "type": "enemyAttack",
+        "attack": 100,
+        "defense": 80,
+        "health": 150,
+        "evade": 5,
+        "crit": 5,
+        "status": "none",
+
+    }],
+}
 /**
  * set up the actions and global variables on the page
  */
@@ -55,10 +110,10 @@ $(document).ready(function() {
             'evade': minionEvade,
         }
         if (message.health == 'R.I.P') {
-            $( "<p class='deadText'>El oponente ya está muerto</p>" ).prependTo( "#output" );
+            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
         } else {
-            connection.send(JSON.stringify(message));
-            console.log(message);
+            connection.send(party); // JSON.stringify(party) cambio aquí a party para ver que pasa
+            console.log(party);
         }
 
         // mensaje regresado x el server
@@ -98,7 +153,7 @@ $(document).ready(function() {
             'evade': playerEvade,
         }
         if (message.health == 'R.I.P') {
-            $( "<p class='deadText'>El oponente ya está muerto</p>" ).prependTo( "#output" );
+            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
         } else {
             connection.send(JSON.stringify(message));
             console.log(message);

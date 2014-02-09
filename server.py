@@ -4,7 +4,7 @@ import tornado.web
 import tornado.websocket
 import tornado.ioloop
 
-from tornado.escape import json_decode
+from tornado.escape import json_decode  # , json_encode
 from random import randint
 
 
@@ -16,6 +16,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         data = json_decode(message)
+        print data
         try:
             if data.get('type') == 'warriorAttack':
                 attack = int(data.get('attack'))
