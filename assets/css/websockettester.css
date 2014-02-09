@@ -40,6 +40,10 @@ body {
 
 }
 
+#minionName, #playerName {
+	color: white;
+}
+
 #warrior{
 	background: #0f3312;
 }
@@ -94,4 +98,20 @@ body {
 
 #outputText{
 	display: inline-block;
+}
+
+.deadText{
+	color:red;
+}
+
+.playerText{
+	color:#0f3312;
+}
+
+.minionText {
+	color:#1a123f;
+}
+
+.evadeText{
+	color:orange;
 }
