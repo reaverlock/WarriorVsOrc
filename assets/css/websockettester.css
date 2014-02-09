@@ -32,39 +32,49 @@ body {
 	margin-right: 20px;
 }
 
-#warrior, #minion{
+#party {
+	background-color: #D9EAD3;
+}
+
+#minions {
+	background-color: #C9DAF8;
+}
+
+#warrior, #mage, #orc, #troll{
 	float: left;
-	
 	border-radius: 20px;
 	padding: 20px;
+	margin-top: 10px;
 
 }
 
 #minionName, #playerName {
 	color: white;
+	font-family: sans-serif;
+	font-size: 22px;
 }
 
-#warrior{
-	background: #0f3312;
+#warrior, #mage{
+	background: #5288E9;
 }
 
-#minion{
-	background: #1a123f;
+#orc, #troll{
+	background: #8BBF79;
 
 }
 
-#warrior img{
+#warrior img, #mage img{
 	float: left;
 
 }
 
-#minion img{
+#orc img, #troll img{
 	float: left;
 	height: 64px;
 	width: 64px;
 }
 
-#warrior button, #minion button {
+#warrior button, #mage button, #orc button, #troll button {
 	float: right;
 	border-radius: 10px;
 	margin: 5px;
@@ -87,13 +97,14 @@ body {
 }
 
 #output{
-	height: 100px;
+	height: 150px;
 	float: left;
 	border-radius: 10px;
-	background: #444;
+	background: #F5F5F5;
 	color: white;
 	margin: 20px auto;
 	padding: 10px 20px;
+	overflow: scroll;
 }
 
 #outputText{
@@ -101,17 +112,17 @@ body {
 }
 
 .deadText{
-	color:red;
+	color: #D64040;
 }
 
 .playerText{
-	color:#0f3312;
+	color: #5288E9;
 }
 
 .minionText {
-	color:#1a123f;
+	color: #8BBF79;
 }
 
 .evadeText{
-	color:orange;
+	color: #E6BA3B;
 }
