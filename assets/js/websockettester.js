@@ -62,7 +62,12 @@ $(document).ready(function() {
             $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
         } else {
             health.text(server_message);  // NO ESTOY SEGURO DE SI ESTO SIRVE. CHEKEAR. 
-            $('#output').prepend("<p class='playerText'>" +name+ " ataca a " +enemyName+" por " + (minionHealth - server_message) + " puntos de daño</p>");
+            if(type == 'warriorAttack' || type == 'mageAttack'){
+                $('#output').prepend("<p class='playerText'>" +name+ " ataca a " +enemyName+" por " + (minionHealth - server_message) + " puntos de daño</p>");
+            }else {
+                $('#output').prepend("<p class='minionText'>" +name+ " ataca a " +enemyName+" por " + (minionHealth - server_message) + " puntos de daño</p>");
+            }
+            
          }
         //si muere
         if (server_message < '1') {
