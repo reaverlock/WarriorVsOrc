@@ -22,6 +22,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print 'mensaje recibido: '
         print message
         objeto = json_decode(message)
+        print objeto
         buenos = objeto.get("party")
         malos = objeto.get("enemies")
         for index, personaje in enumerate(buenos):
