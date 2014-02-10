@@ -3,6 +3,7 @@
 import tornado.web
 import tornado.websocket
 import tornado.ioloop
+#import ast
 
 from tornado.escape import json_decode  # , json_encode
 from random import randint
@@ -15,29 +16,27 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         self.write_message("You are connected")
 
     def on_message(self, message):
-        data = message
-        json_decode(data)
-        print data
+        # data = ast.literal_eval(message)
 
-        if data == str(data):
-            print 'data es un string nada mas '
-        
-        # print data.get('buenos')
+        objeto = json_decode(message)
+        print objeto.get("buenos").get("primero").get("type")
+        _type = objeto.get("buenos").get("primero").get("type")
+
         try:
-            if data == 'warriorAttack':
-                attack = int(data.get('attack'))
-                defense = int(data.get('defense'))
-                evade = int(data.get('evade'))
-                health = int(data.get('health'))
+            if _type == 'warriorAttack':
+                attack = int(objeto.get("buenos").get("primero").get('attack'))
+                defense = int(objeto.get("malos").get("primero").get('defense'))
+                evade = int(objeto.get("malos").get("primero").get('evade'))
+                health = int(objeto.get("malos").get("primero").get('health'))
                 if randint(1, 100) <= evade:
                     message = 'El objetivo esquivo'
                 elif attack > defense:
                     message = str(health - (attack - defense))
-            elif data.get('type') == 'minionAttack':
-                attack = int(data.get('attack'))
-                defense = int(data.get('defense'))
-                evade = int(data.get('evade'))
-                health = int(data.get('health'))
+            elif _type == 'minionAttack':
+                attack = int(objeto.get("malos").get("primero").get('attack'))
+                defense = int(objeto.get("buenos").get("primero").get('defense'))
+                evade = int(objeto.get("buenos").get("primero").get('evade'))
+                health = int(objeto.get("buenos").get("primero").get('health'))
                 if randint(1, 100) <= evade:
                     message = 'El objetivo esquivo'
                 elif attack > defense:

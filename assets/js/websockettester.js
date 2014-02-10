@@ -18,7 +18,7 @@ var party = {
             "profession": "warrior",
             "name": "Pedrito",
             "type": "warriorAttack",
-            "attack": 100,
+            "attack": 120,
             "defense": 80,
             "health": 150,
             "evade": 5,
@@ -44,7 +44,7 @@ var party = {
             "type": "minionAttack",
             "attack": 100,
             "defense": 80,
-            "health": 150,
+            "health": 120,
             "evade": 5,
             "crit": 5,
             "status": "none"
