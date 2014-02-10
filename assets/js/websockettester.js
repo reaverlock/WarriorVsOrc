@@ -7,10 +7,55 @@ var connection;
 //party completa que se enviará
 var allCharacters = {
     "party": [],
-    "enemies": [],
+    "enemies": []
 }
 
 //esta es solo para probar, debe ser borrada
+
+var pruebaParty = {
+    "buenos": [{
+        "profession": "warrior",
+        "name": "Pedrito",
+        "type": "warriorAttack",
+        "attack": 120,
+        "defense": 80,
+        "health": 150,
+        "evade": 5,
+        "crit": 5,
+        "status": "none"
+    }, {
+        "profession": "mage",
+        "name": "esencito",
+        "type": "mageAttack",
+        "attack": 30,
+        "defense": 50,
+        "health": 20,
+        "evade": 30,
+        "crit": 5,
+        "status": "none"
+    }],
+    "malos": [{
+        "profession": "rogue",
+        "name": "Orquito",
+        "type": "minionAttack",
+        "attack": 100,
+        "defense": 80,
+        "health": 120,
+        "evade": 5,
+        "crit": 5,
+        "status": "none"
+    }, {
+        "profession": "minionazo",
+        "name": "Simurito",
+        "type": "enemyAttack",
+        "attack": 100,
+        "defense": 80,
+        "health": 150,
+        "evade": 5,
+        "crit": 5,
+        "status": "none"
+    }]
+}
 
 var party = {
     "buenos": {
@@ -92,7 +137,9 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
+    function buttonClick(event, attackerName, attackerAttack, attackerCritical, oponentDefense, oponentHealth, oponentEvade, oponentName) {
 
+    }
 
 
 
@@ -115,13 +162,14 @@ $(document).ready(function() {
         if (message.health == 'R.I.P') {
             $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
         } else {
-            connection.send(JSON.stringify(party)); // JSON.stringify(party) cambio aquí a party para ver que pasa
-            console.log(JSON.stringify(party));
+            connection.send(JSON.stringify(pruebaParty)); // JSON.stringify(party) cambio aquí a party para ver que pasa
+            console.log(JSON.stringify(pruebaParty));
         }
 
         // mensaje regresado x el server
         connection.onmessage = function(e) {
-            var server_message = e.data;
+            var server_message = JSON.parse(e.data);
+            console.log("recibí esto del server: ");
             console.log(server_message);
 
             if (server_message == 'El objetivo esquivo') {

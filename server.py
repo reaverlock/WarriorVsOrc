@@ -3,9 +3,9 @@
 import tornado.web
 import tornado.websocket
 import tornado.ioloop
-#import ast
+# import ast # data = ast.literal_eval(message)
 
-from tornado.escape import json_decode  # , json_encode
+from tornado.escape import json_decode, json_encode
 from random import randint
 
 
@@ -15,41 +15,36 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print "New client connected"
         self.write_message("You are connected")
 
-    def on_message(self, message):
-        # data = ast.literal_eval(message)
-
-        objeto = json_decode(message)
-        print objeto.get("buenos").get("primero").get("type")
-        _type = objeto.get("buenos").get("primero").get("type")
-
-        try:
-            if _type == 'warriorAttack':
-                attack = int(objeto.get("buenos").get("primero").get('attack'))
-                defense = int(objeto.get("malos").get("primero").get('defense'))
-                evade = int(objeto.get("malos").get("primero").get('evade'))
-                health = int(objeto.get("malos").get("primero").get('health'))
-                if randint(1, 100) <= evade:
-                    message = 'El objetivo esquivo'
-                elif attack > defense:
-                    message = str(health - (attack - defense))
-            elif _type == 'minionAttack':
-                attack = int(objeto.get("malos").get("primero").get('attack'))
-                defense = int(objeto.get("buenos").get("primero").get('defense'))
-                evade = int(objeto.get("buenos").get("primero").get('evade'))
-                health = int(objeto.get("buenos").get("primero").get('health'))
-                if randint(1, 100) <= evade:
-                    message = 'El objetivo esquivo'
-                elif attack > defense:
-                    message = str(health - (attack - defense))
-
-            else:
-                self.write_message("no iguale el data type")
-        except ValueError:
-            message = 'No funciono el ataque'
-        self.write_message(message)
-
     def on_close(self):
         print "Client disconnected"
+
+    def on_message(self, message):
+
+        objeto = json_decode(message)
+        print objeto.get("buenos")[0]
+        buenos = objeto.get("buenos")
+        malos = objeto.get("malos")
+        for index, personaje in enumerate(buenos):
+            try:
+                if personaje.get('type') == "warriorAttack":
+                    attack = int(buenos[index].get('attack'))
+                    defense = int(buenos[index].get('defense'))
+                    evade = int(malos[0].get('evade'))
+                    health = int(malos[0].get('health'))
+                    if randint(1, 100) <= evade:
+                        message = 'El objetivo esquivo'
+                        self.write_message(message)
+                    elif attack > defense:
+                        newHealth = health - (attack - defense)
+                        malos[0]['health'] = newHealth
+                        message = json_encode(objeto)
+                        #message = str(health - (attack - defense))
+                        print message
+                        self.write_message(message)
+
+            except ValueError:
+                message = 'No funciono el ataque'
+                self.write_message(message)
 
 
 application = tornado.web.Application([
