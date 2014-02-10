@@ -77,7 +77,7 @@ $(document).ready(function() {
 
 
     // assign event handler to the connect button
-    $("#connect").click(function(e) {
+    $("#connect").on("click", function(e) {
         var server = $("#serveruri").val();
         // crear conexion
         connection = new WebSocket(server);
@@ -97,7 +97,7 @@ $(document).ready(function() {
 
 
     // assign event handler to the send button
-    $("#warriorAttackButton").click(function(e) {
+    $("#warriorAttackButton").on("click", function(e) {
         var name = $("#playerName").text();
         var playerAttack = $("#playerAttack").text();
         var playerCrit = $("#playerCrit").text();
@@ -140,7 +140,7 @@ $(document).ready(function() {
         e.preventDefault();
 
     });
-    $("#mageAttackButton").click(function(e) {
+    $("#mageAttackButton").on("click", function(e) {
         var playerAttack = $("#mageAttack").text();
         var playerCrit = $("#mageCrit").text();
         var minionDefense = $("#trollDefense").text();
@@ -182,7 +182,7 @@ $(document).ready(function() {
         e.preventDefault();
 
     });
-    $("#orcAttackButton").click(function(e) {
+    $("#orcAttackButton").on("click", function(e) {
         var name = $("#minionName").text();
         var minionAttack = $("#minionAttack").text();
         var minionCrit = $("#minionCrit").text();
@@ -225,7 +225,7 @@ $(document).ready(function() {
         e.preventDefault();
 
     });
-    $("#trollAttackButton").click(function(e) {
+    $("#trollAttackButton").on("click", function(e) {
         var minionAttack = $("#trollAttack").text();
         var minionCrit = $("#trollCrit").text();
         var playerDefense = $("#mageDefense").text();
