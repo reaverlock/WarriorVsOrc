@@ -26,77 +26,119 @@
 			</div>
 			
 			<div class="row">
- 				<div id="party" class="span4">
+ 				<div id="party" class="span9">
  					<h2>The heroes</h2>
- 					<div id="warrior" class="span2">
- 				 		<img src="assets/img/warrior.gif" alt="" class="warrior">
+ 					<div class="player" class="span3">
+ 				 		<img src="assets/img/warrior.gif" alt="" >
  				 		<span class="name">Pedrito</span>
  				 		<button id="warriorAttackButton">Attack</button>
  				 		<ul class="skills">
+ 				 			<span class="profession" style="display:none">Warrior</span>
  				 			<li>Atack</li>
- 				 				<span id="warriorAttack">120</span>
- 				 				<li>Defense</li>
- 				 				<span id="warriorDefense">70</span>
- 				 				<li>HP</li>
- 				 				<span id="warriorHealth">150</span>
- 				 				<li>crit %</li>
- 				 				<span id="warriorCrit">5</span>
+ 				 			<span class="playerAttack">120</span>
+			 				<li>Defense</li>
+			 				<span  class="playerDefense">130</span>
+			 				<li>HP</li>
+			 				<span  class="playerHealth">150</span>
+			 				<li>crit %</li>
+			 				<span  class="playerCrit">5</span>
  				 			<li>Evade %</li>
- 				 			<span id="warriorEvade">5</span>
+ 				 			<span  class="playerEvade">5</span>
  				 		</ul>
  				 	</div>
- 				 	<div id="mage" class="span2">
- 				 		<img src="assets/img/warrior.gif" alt="" class="mage">
+ 				 	<div class="player" class="span3">
+ 				 		<img src="assets/img/rogue.gif" alt="" >
  				 		<span class="name">Carlitos</span>
  				 		<button id="mageAttackButton">Attack</button>
  				 		<ul class="skills">
+ 				 			<span class="profession" style="display:none">Rogue</span>
  				 			<li>Atack</li>
- 				 			<span id="mageAttack">220</span>
- 				 			<li>Defense</li>
- 				 			<span id="mageDefense">10</span>
- 				 			<li>HP</li>
- 				 			<span id="mageHealth">100</span>
- 				 			<li>crit %</li>
- 				 			<span id="mageCrit">15</span>
+ 				 			<span class="playerAttack">150</span>
+			 				<li>Defense</li>
+			 				<span  class="playerDefense">100</span>
+			 				<li>HP</li>
+			 				<span  class="playerHealth">120</span>
+			 				<li>crit %</li>
+			 				<span  class="playerCrit">15</span>
  				 			<li>Evade %</li>
- 				 			<span id="mageEvade">5</span>
+ 				 			<span  class="playerEvade">15</span>
  				 		</ul>
  				 	</div>
- 				 </div>
- 				<div id="minions" class="span4">
+ 				 	<div class="player" class="span3">
+ 				 		<img src="assets/img/mage.gif" alt="" >
+ 				 		<span class="name">Carlitos</span>
+ 				 		<button id="mageAttackButton">Attack</button>
+ 				 		<span class="profession" style="display:none">Mage</span>
+ 				 		<ul class="skills">
+ 				 			<li>Atack</li>
+ 				 			<span class="playerAttack">60</span>
+			 				<li>Defense</li>
+			 				<span  class="playerDefense">70</span>
+			 				<li>HP</li>
+			 				<span  class="playerHealth">80</span>
+			 				<li>crit %</li>
+			 				<span  class="playerCrit">5</span>
+ 				 			<li>Evade %</li>
+ 				 			<span  class="playerEvade">5</span>
+ 				 		</ul>
+ 				 	</div>
+ 				</div>
+ 			</div>
+ 			<div class="row">
+ 				<div id="minions" class="span9">
  					<h2>The bad guys</h2>
-	 				<div id="orc" class="span2">
-	 					<img src="assets/img/orc.gif" alt="" class="warrior">
-	 					<span class="name">Esen</span>
+	 				<div class="minion" class="span3">
+	 					<img src="assets/img/orc_2.gif" alt="" >
+	 					<span class="name">Orc</span>
 	 					<button id="orcAttackButton">Attack</button>
 	 					<ul class="skills">
+	 						<span class="race" style="display:none">Orc</span>
 	 						<li>Atack</li>
-	 						<span id="orcAttack">100</span>
+	 						<span  class="minionAttack">100</span>
 	 						<li>Defense</li>
-	 						<span id="orcDefense">100</span>
+	 						<span  class="minionDefense">100</span>
 	 						<li>HP</li>
-	 						<span id="orcHealth">120</span>
+	 						<span  class="minionHealth">120</span>
 	 						<li>crit %</li>
-	 						<span id="orcCrit">5</span>
+	 						<span  class="minionCrit">5</span>
 	 						<li>Evade %</li>
-	 						<span id="orcEvade">5</span>
+	 						<span  class="minionEvade">5</span>
 	 					</ul>
 	 				</div>
-	 				<div id="troll" class="span2">
-	 					<img src="assets/img/orc.gif" alt="" class="warrior">
-	 					<span class="name">Esen II</span>
+	 				<div class="minion" class="span3">
+	 					<img src="assets/img/werewolf.gif" alt="" >
+	 					<span class="name">Werewolf</span>
 	 					<button id="trollAttackButton">Attack</button>
 	 					<ul class="skills">
+	 						<span class="race" style="display:none">Werewolf</span>
 	 						<li>Atack</li>
-	 						<span id="trollAttack">100</span>
+	 						<span  class="minionAttack">180</span>
 	 						<li>Defense</li>
-	 						<span id="trollDefense">100</span>
+	 						<span  class="minionDefense">90</span>
 	 						<li>HP</li>
-	 						<span id="trollHealth">120</span>
+	 						<span  class="minionHealth">150</span>
 	 						<li>crit %</li>
-	 						<span id="trollCrit">5</span>
+	 						<span  class="minionCrit">15</span>
 	 						<li>Evade %</li>
-	 						<span id="trollEvade">5</span>
+	 						<span  class="minionEvade">25</span>
+	 					</ul>
+	 				</div>
+	 				<div class="minion" class="span3">
+	 					<img src="assets/img/skelleton.gif" alt="" >
+	 					<span class="name">Skelleton</span>
+	 					<button id="trollAttackButton">Attack</button>
+	 					<ul class="skills">
+	 						<span class="race" style="display:none">Skelleton</span>
+	 						<li>Atack</li>
+	 						<span  class="minionAttack">110</span>
+	 						<li>Defense</li>
+	 						<span  class="minionDefense">120</span>
+	 						<li>HP</li>
+	 						<span  class="minionHealth">70</span>
+	 						<li>crit %</li>
+	 						<span  class="minionCrit">10</span>
+	 						<li>Evade %</li>
+	 						<span  class="minionEvade">5</span>
 	 					</ul>
 	 				</div>
  				</div>

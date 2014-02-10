@@ -34,45 +34,38 @@ body {
 
 #party {
 	background-color: #D9EAD3;
+	border-radius: 20px;
+	margin: 20px 0;
+	padding: 10px;
 }
 
 #minions {
 	background-color: #C9DAF8;
-}
-
-#warrior, #mage, #orc, #troll{
-	float: left;
 	border-radius: 20px;
-	padding: 20px;
-	margin-top: 10px;
-
+	margin: 20px 0;
+	padding: 10px;
 }
 
-#minionName, #playerName {
-	color: white;
-	font-family: sans-serif;
-	font-size: 22px;
-}
-
-#warrior, #mage{
-	background: #5288E9;
-}
-
-#orc, #troll{
-	background: #8BBF79;
-
-}
-
-#warrior img, #mage img{
+.player, .minion{
+	background: green;
 	float: left;
-
+	width: 30%;
+	margin: 12px;
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius: 20px;
 }
 
-#orc img, #troll img{
+.minion{
+	background: #836d4d;
+}
+.player img, .minion img{
 	float: left;
 	height: 64px;
 	width: 64px;
+
 }
+
 
 #warrior button, #mage button, #orc button, #troll button {
 	float: right;
@@ -85,6 +78,7 @@ body {
 	background: black;
 	border-radius: 10px;
 	padding: 10px;
+	margin: 10px;
 	list-style: none;
 	float: left;
 	color: white;
@@ -94,6 +88,7 @@ body {
 	display: inline-block;
 	float: left;
 	margin: 10px;
+	width: 40%;
 }
 
 #output{

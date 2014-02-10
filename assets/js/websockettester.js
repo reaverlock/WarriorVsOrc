@@ -119,7 +119,9 @@ $(document).ready(function() {
     $("#serveruri").val(server);
 
 
-
+    $('button').on('click', function() {
+        console.log('funciona boton generico')
+    });
 
     // assign event handler to the connect button
     $("#connect").on("click", function(e) {
