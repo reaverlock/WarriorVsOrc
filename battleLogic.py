@@ -66,9 +66,9 @@ def battleLogic(message):
     def damaged(health, attack, defense, crit):
         if crit is False:
             newHealth = health - (attack - defense)
-            return newHealth
         elif crit is True:
             newHealth = health - (attack - defense) * 2
+        return newHealth
 
     # Main battle logic goes here:
     for index, minion in enumerate(minions):
