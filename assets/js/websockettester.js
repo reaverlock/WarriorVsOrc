@@ -10,52 +10,6 @@ var allCharacters = {
     "enemies": []
 }
 
-//esta es solo para probar, debe ser borrada
-
-var pruebaParty = {
-    "buenos": [{
-        "profession": "warrior",
-        "name": "Pedrito",
-        "type": "warriorAttack",
-        "attack": 120,
-        "defense": 80,
-        "health": 150,
-        "evade": 5,
-        "crit": 5,
-        "status": "none"
-    }, {
-        "profession": "mage",
-        "name": "esencito",
-        "type": "mageAttack",
-        "attack": 30,
-        "defense": 50,
-        "health": 20,
-        "evade": 30,
-        "crit": 5,
-        "status": "none"
-    }],
-    "malos": [{
-        "profession": "rogue",
-        "name": "Orquito",
-        "type": "minionAttack",
-        "attack": 100,
-        "defense": 80,
-        "health": 120,
-        "evade": 5,
-        "crit": 5,
-        "status": "none"
-    }, {
-        "profession": "minionazo",
-        "name": "Simurito",
-        "type": "enemyAttack",
-        "attack": 100,
-        "defense": 80,
-        "health": 150,
-        "evade": 5,
-        "crit": 5,
-        "status": "none"
-    }]
-}
 
 
 /**
@@ -88,9 +42,6 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    function buttonClick(event, attackerName, attackerAttack, attackerCritical, oponentDefense, oponentHealth, oponentEvade, oponentName) {
-
-    }
 
     // selector de enemigo (solo permite uno)
     $('.minion').on('click', function() {
@@ -104,6 +55,7 @@ $(document).ready(function() {
     // funcion de boton genérica para todos
     $('button').on('click', function(e) {
         if ($(this).hasClass('btn') != true) {
+
             // definimos variables a pasar
             var name = $(this).closest('.player').children('.name').text();
             var characterProfession = $(this).next().find('.profession').text();
@@ -111,19 +63,27 @@ $(document).ready(function() {
             var minionDefense = $('#minions').find('.selected').find('.minionDefense').text();
             var minionHealth = $('#minions').find('.selected').find('.minionHealth').text();
             var minionEvade = $('#minions').find('.selected').find('.minionEvade').text();
-            // agregamos variables al array de buenos
-            allCharacters.party.push({
-                "name": name,
-                "profession": characterProfession,
-                "attack": characterAttack
-            });
-            // agregamos variables alarray de malos
-            allCharacters.enemies.push({
-                "name": "prueba orco",
-                "defense": minionDefense,
-                "health": minionHealth,
-                "evade": minionEvade
-            });
+            var minionName = $('#minions').find('.selected').closest('.minion').children('.name').text();
+            if (allCharacters.party.indexOf(name) == -1) {
+                // agregamos variables al array de buenos
+                allCharacters.party.push({
+                    "name": name,
+                    "profession": characterProfession,
+                    "attack": characterAttack
+                });
+            }
+            if (allCharacters.enemies.indexOf(minionName) == -1) {
+                // agregamos variables alarray de malos
+                allCharacters.enemies.push({
+                    "name": minionName,
+                    "defense": minionDefense,
+                    "health": minionHealth,
+                    "evade": minionEvade
+                });
+            }
+
+
+
             console.log(allCharacters);
             var message = allCharacters;
             if (message.enemies.health == 'R.I.P') {
@@ -144,9 +104,11 @@ $(document).ready(function() {
                 } else if (server_message == 'No funciono el ataque') {
                     $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
                 } else {
-                    $('#orcHealth').text(server_message);
-                    $('#output').prepend("<p class='playerText'>Pedrito ataca a Esen por " + (minionHealth - server_message) + " puntos de daño</p>");
+                    $('#minions').find('.selected').find('.minionHealth').text(server_message.enemies[0].health);;
+                    $('#output').prepend("<p class='playerText'>Pedrito ataca a Esen por " + (minionHealth - parseInt(server_message.enemies[0].health)) + " puntos de daño</p>");
                 }
+                server_message.enemies.splice(0, server_message.enemies.length);
+                server_message.party.splice(0, server_message.party.length);
                 //si muere
                 if (server_message < '1') {
                     $('#orcHealth').text("R.I.P");

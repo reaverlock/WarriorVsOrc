@@ -19,16 +19,16 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print "Client disconnected"
 
     def on_message(self, message):
-
+        print 'mensaje recibido: '
+        print message
         objeto = json_decode(message)
-        print objeto.get("party")[0]
         buenos = objeto.get("party")
         malos = objeto.get("enemies")
         for index, personaje in enumerate(buenos):
             try:
                 if personaje.get('profession') == "Warrior":
                     attack = int(buenos[index].get('attack'))
-                    defense = int(buenos[index].get('defense'))
+                    defense = int(malos[0].get('defense'))
                     evade = int(malos[0].get('evade'))
                     health = int(malos[0].get('health'))
                     if randint(1, 100) <= evade:
@@ -38,7 +38,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                         newHealth = health - (attack - defense)
                         malos[0]['health'] = newHealth
                         message = json_encode(objeto)
-                        #message = str(health - (attack - defense))
+                        print 'mensaje enviado: '
                         print message
                         self.write_message(message)
 
