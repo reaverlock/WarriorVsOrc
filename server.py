@@ -21,12 +21,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, message):
 
         objeto = json_decode(message)
-        print objeto.get("buenos")[0]
-        buenos = objeto.get("buenos")
-        malos = objeto.get("malos")
+        print objeto.get("party")[0]
+        buenos = objeto.get("party")
+        malos = objeto.get("enemies")
         for index, personaje in enumerate(buenos):
             try:
-                if personaje.get('type') == "warriorAttack":
+                if personaje.get('profession') == "Warrior":
                     attack = int(buenos[index].get('attack'))
                     defense = int(buenos[index].get('defense'))
                     evade = int(malos[0].get('evade'))

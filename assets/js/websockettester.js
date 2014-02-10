@@ -57,56 +57,7 @@ var pruebaParty = {
     }]
 }
 
-var party = {
-    "buenos": {
-        "primero": {
-            "profession": "warrior",
-            "name": "Pedrito",
-            "type": "warriorAttack",
-            "attack": 120,
-            "defense": 80,
-            "health": 150,
-            "evade": 5,
-            "crit": 5,
-            "status": "none"
-        },
-        "segundo": {
-            "profession": "mage",
-            "name": "esencito",
-            "type": "mageAttack",
-            "attack": 30,
-            "defense": 50,
-            "health": 20,
-            "evade": 30,
-            "crit": 5,
-            "status": "none"
-        }
-    },
-    "malos": {
-        "primero": {
-            "profession": "rogue",
-            "name": "Orquito",
-            "type": "minionAttack",
-            "attack": 100,
-            "defense": 80,
-            "health": 120,
-            "evade": 5,
-            "crit": 5,
-            "status": "none"
-        },
-        "segundo": {
-            "profession": "minionazo",
-            "name": "Simurito",
-            "type": "enemyAttack",
-            "attack": 100,
-            "defense": 80,
-            "health": 150,
-            "evade": 5,
-            "crit": 5,
-            "status": "none"
-        }
-    }
-}
+
 /**
  * set up the actions and global variables on the page
  */
@@ -119,9 +70,7 @@ $(document).ready(function() {
     $("#serveruri").val(server);
 
 
-    $('button').on('click', function() {
-        console.log('funciona boton generico')
-    });
+
 
     // assign event handler to the connect button
     $("#connect").on("click", function(e) {
@@ -143,177 +92,69 @@ $(document).ready(function() {
 
     }
 
-
-
-    // assign event handler to the send button
-    $("#warriorAttackButton").on("click", function(e) {
-        var name = $("#playerName").text();
-        var playerAttack = $("#playerAttack").text();
-        var playerCrit = $("#playerCrit").text();
-        var minionDefense = $("#orcDefense").text();
-        var minionHealth = $("#orcHealth").text();
-        var minionEvade = $("#orcEvade").text();
-        message = {
-            'type': 'warriorAttack',
-            'name': name,
-            'attack': playerAttack,
-            'defense': minionDefense,
-            'health': minionHealth,
-            'evade': minionEvade,
+    // selector de enemigo (solo permite uno)
+    $('.minion').on('click', function() {
+        if ($('#minions').find('.selected').length == 0) {
+            $(this).toggleClass('selected');
+        } else if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
         }
-        if (message.health == 'R.I.P') {
-            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
-        } else {
-            connection.send(JSON.stringify(pruebaParty)); // JSON.stringify(party) cambio aquí a party para ver que pasa
-            console.log(JSON.stringify(pruebaParty));
-        }
+    });
 
-        // mensaje regresado x el server
-        connection.onmessage = function(e) {
-            var server_message = JSON.parse(e.data);
-            console.log("recibí esto del server: ");
-            console.log(server_message);
-
-            if (server_message == 'El objetivo esquivo') {
-                $('#output').prepend("<p class='evadeText'>" + server_message + "</p>");
-            } else if (server_message == 'No funciono el ataque') {
-                $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
+    // funcion de boton genérica para todos
+    $('button').on('click', function(e) {
+        if ($(this).hasClass('btn') != true) {
+            // definimos variables a pasar
+            var name = $(this).closest('.player').children('.name').text();
+            var characterProfession = $(this).next().find('.profession').text();
+            var characterAttack = $(this).next().find('.playerAttack').text();
+            var minionDefense = $('#minions').find('.selected').find('.minionDefense').text();
+            var minionHealth = $('#minions').find('.selected').find('.minionHealth').text();
+            var minionEvade = $('#minions').find('.selected').find('.minionEvade').text();
+            // agregamos variables al array de buenos
+            allCharacters.party.push({
+                "name": name,
+                "profession": characterProfession,
+                "attack": characterAttack
+            });
+            // agregamos variables alarray de malos
+            allCharacters.enemies.push({
+                "name": "prueba orco",
+                "defense": minionDefense,
+                "health": minionHealth,
+                "evade": minionEvade
+            });
+            console.log(allCharacters);
+            var message = allCharacters;
+            if (message.enemies.health == 'R.I.P') {
+                $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
             } else {
-                $('#orcHealth').text(server_message);
-                $('#output').prepend("<p class='playerText'>Pedrito ataca a Esen por " + (minionHealth - server_message) + " puntos de daño</p>");
+                connection.send(JSON.stringify(message)); // JSON.stringify(party) cambio aquí a party para ver que pasa
+                console.log(JSON.stringify(message));
             }
-            //si muere
-            if (server_message < '1') {
-                $('#orcHealth').text("R.I.P");
+
+            // mensaje regresado x el server
+            connection.onmessage = function(e) {
+                var server_message = JSON.parse(e.data);
+                console.log("recibí esto del server: ");
+                console.log(server_message);
+
+                if (server_message == 'El objetivo esquivo') {
+                    $('#output').prepend("<p class='evadeText'>" + server_message + "</p>");
+                } else if (server_message == 'No funciono el ataque') {
+                    $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
+                } else {
+                    $('#orcHealth').text(server_message);
+                    $('#output').prepend("<p class='playerText'>Pedrito ataca a Esen por " + (minionHealth - server_message) + " puntos de daño</p>");
+                }
+                //si muere
+                if (server_message < '1') {
+                    $('#orcHealth').text("R.I.P");
+                }
             }
+            e.preventDefault();
         }
-        e.preventDefault();
 
     });
-    $("#mageAttackButton").on("click", function(e) {
-        var playerAttack = $("#mageAttack").text();
-        var playerCrit = $("#mageCrit").text();
-        var minionDefense = $("#trollDefense").text();
-        var minionHealth = $("#trollHealth").text();
-        var minionEvade = $("#trollEvade").text();
-        message = {
-            'type': 'mageAttack',
-            'name': name,
-            'attack': playerAttack,
-            'defense': minionDefense,
-            'health': minionHealth,
-            'evade': minionEvade,
-        }
-        if (message.health == 'R.I.P') {
-            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
-        } else {
-            connection.send(JSON.stringify(message));
-            console.log(message);
-        }
 
-        // mensaje regresado x el server
-        connection.onmessage = function(e) {
-            var server_message = e.data;
-            console.log(server_message);
-
-            if (server_message == 'El objetivo esquivo') {
-                $('#output').prepend("<p class='evadeText'>" + server_message + "</p>");
-            } else if (server_message == 'No funciono el ataque') {
-                $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
-            } else {
-                $('#trollHealth').text(server_message);
-                $('#output').prepend("<p class='playerText'>Carlitos ataca a Esen II por " + (minionHealth - server_message) + " puntos de daño</p>");
-            }
-            //si muere
-            if (server_message < '1') {
-                $('#trollHealth').text("R.I.P");
-            }
-        }
-        e.preventDefault();
-
-    });
-    $("#orcAttackButton").on("click", function(e) {
-        var name = $("#minionName").text();
-        var minionAttack = $("#minionAttack").text();
-        var minionCrit = $("#minionCrit").text();
-        var playerDefense = $("#warriorDefense").text();
-        var playerHealth = $("#warriorHealth").text();
-        var playerEvade = $("#warriorEvade").text();
-        message = {
-            'type': 'orcAttack',
-            'name': name,
-            'attack': minionAttack,
-            'defense': playerDefense,
-            'health': playerHealth,
-            'evade': playerEvade,
-        }
-        if (message.health == 'R.I.P') {
-            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
-        } else {
-            connection.send(JSON.stringify(message));
-            console.log(message);
-        }
-
-        // mensaje regresado x el server
-        connection.onmessage = function(e) {
-            var server_message = e.data;
-            console.log(server_message);
-
-            if (server_message == 'El objetivo esquivo') {
-                $('#output').prepend("<p class='evadeText'>" + server_message + "</p>");
-            } else if (server_message == 'No funciono el ataque') {
-                $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
-            } else {
-                $('#warriorHealth').text(server_message);
-                $('#output').prepend("<p class='minionText'>Esen ataca a Pedrito por " + (playerHealth - server_message) + " puntos de daño</p>");
-            }
-            //si muere
-            if (server_message < '1') {
-                $('#warriorHealth').text("R.I.P");
-            }
-        }
-        e.preventDefault();
-
-    });
-    $("#trollAttackButton").on("click", function(e) {
-        var minionAttack = $("#trollAttack").text();
-        var minionCrit = $("#trollCrit").text();
-        var playerDefense = $("#mageDefense").text();
-        var playerHealth = $("#mageHealth").text();
-        var playerEvade = $("#mageEvade").text();
-        message = {
-            'type': 'trollAttack',
-            'attack': minionAttack,
-            'defense': playerDefense,
-            'health': playerHealth,
-            'evade': playerEvade,
-        }
-        if (message.health == 'R.I.P') {
-            $("<p class='deadText'>El oponente ya está muerto</p>").prependTo("#output");
-        } else {
-            connection.send(JSON.stringify(message));
-            console.log(message);
-        }
-
-        // mensaje regresado x el server
-        connection.onmessage = function(e) {
-            var server_message = e.data;
-            console.log(server_message);
-
-            if (server_message == 'El objetivo esquivo') {
-                $('#output').prepend("<p class='evadeText'>" + server_message + "</p>");
-            } else if (server_message == 'No funciono el ataque') {
-                $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
-            } else {
-                $('#mageHealth').text(server_message);
-                $('#output').prepend("<p class='minionText'>Esen II ataca a Carlitos por " + (playerHealth - server_message) + " puntos de daño</p>");
-            }
-            //si muere
-            if (server_message < '1') {
-                $('#mageHealth').text("R.I.P");
-            }
-        }
-        e.preventDefault();
-
-    });
 });

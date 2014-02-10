@@ -66,6 +66,9 @@ body {
 
 }
 
+.selected{
+	border: 3px solid black;
+}
 
 #warrior button, #mage button, #orc button, #troll button {
 	float: right;
@@ -88,18 +91,18 @@ body {
 	display: inline-block;
 	float: left;
 	margin: 10px;
-	width: 40%;
+	width: 30%;
 }
 
 #output{
 	height: 150px;
 	float: left;
 	border-radius: 10px;
-	background: #F5F5F5;
+	background: #333;
 	color: white;
 	margin: 20px auto;
 	padding: 10px 20px;
-	overflow: scroll;
+	overflow: auto;
 }
 
 #outputText{
