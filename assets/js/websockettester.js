@@ -8,13 +8,7 @@ var connection;
 var allCharacters = {
     "party": [],
     "enemies": [],
-    "status": {
-        "evade": false,
-        "stun": false,
-        "crit": false,
-        "defended": false,
-        "dead": false
-    }
+
 }
 
 
@@ -58,7 +52,14 @@ $(document).ready(function() {
             "defense": characterDefense,
             "evade": characterEvade,
             "crit": characterCrit,
-            "role": 'None'
+            "role": 'None',
+            "status": {
+                "evade": false,
+                "stun": false,
+                "crit": false,
+                "defended": false,
+                "dead": false
+            }
         });
     });
 
@@ -79,7 +80,14 @@ $(document).ready(function() {
             "defense": characterDefense,
             "evade": characterEvade,
             "crit": characterCrit,
-            "role": 'None'
+            "role": 'None',
+            "status": {
+                "evade": false,
+                "stun": false,
+                "crit": false,
+                "defended": false,
+                "dead": false
+            }
         });
     });
 
