@@ -11,6 +11,8 @@ var allCharacters = {
     "status": {
         "evade": false,
         "stun": false,
+        "crit": false,
+        "defended": false,
         "dead": false
     }
 }
@@ -113,7 +115,14 @@ $(document).ready(function() {
         }
         //Modifica los valores de roles
         allCharacters.party[attacker].role = 'attacker';
-        allCharacters.enemies[target].role = 'target';
+        if (allCharacters.party[attacker].profession == 'Mage') {
+            for (var i = 0; i < allCharacters.enemies.length; i++) {
+                allCharacters.enemies[i].role = 'target';
+            }
+        } else {
+            allCharacters.enemies[target].role = 'target';
+        }
+
 
 
         var message = allCharacters;
@@ -121,6 +130,8 @@ $(document).ready(function() {
         console.log(JSON.stringify(message));
 
 
+
+        // corregir esto para que reciba los mensajes adecuados
         // mensaje regresado x el server
         connection.onmessage = function(e) {
             var server_message = JSON.parse(e.data);
