@@ -2,7 +2,7 @@
 <html lang="es">
 	<head>
 		<meta charset="UTF-8">
-        <title>Json RPG 2way tester</title><link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <title>Json RPG 2way tester</title>
 		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 		<link rel="stylesheet" href="assets/css/websockettester.css" />
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -25,13 +25,12 @@
 				
 			</div>
 			
-			<div class="row">
- 				<div id="party" class="span9">
+			<div class="span30">
+ 				<div id="party" class="span100">
  					<h2>The heroes</h2>
- 					<div class="player" class="span3">
+ 					<div class="player" class="span100">
  				 		<img src="assets/img/warrior.gif" alt="" >
- 				 		<span class="name">Pedrito</span>
- 				 		<button id="warriorAttackButton">Attack</button>
+ 				 		<span class="name">Pedrito "The Unstoppable"</span>
  				 		<ul class="skills">
  				 			<span class="profession" style="display:none">Warrior</span>
  				 			<li>Atack</li>
@@ -42,14 +41,13 @@
 			 				<span  class="playerHealth">150</span>
 			 				<li>crit %</li>
 			 				<span  class="playerCrit">5</span>
- 				 			<li>Evade %</li>
+ 				 			<li>Evade</li>
  				 			<span  class="playerEvade">5</span>
  				 		</ul>
  				 	</div>
- 				 	<div class="player" class="span3">
+ 				 	<div class="player" class="span100">
  				 		<img src="assets/img/rogue.gif" alt="" >
- 				 		<span class="name">Carlitos</span>
- 				 		<button id="mageAttackButton">Attack</button>
+ 				 		<span class="name">Carlitos "The Abscent"</span>
  				 		<ul class="skills">
  				 			<span class="profession" style="display:none">Rogue</span>
  				 			<li>Atack</li>
@@ -60,14 +58,13 @@
 			 				<span  class="playerHealth">120</span>
 			 				<li>crit %</li>
 			 				<span  class="playerCrit">15</span>
- 				 			<li>Evade %</li>
+ 				 			<li>Evade</li>
  				 			<span  class="playerEvade">15</span>
  				 		</ul>
  				 	</div>
- 				 	<div class="player" class="span3">
+ 				 	<div class="player" class="span100">
  				 		<img src="assets/img/mage.gif" alt="" >
- 				 		<span class="name">Carlitos</span>
- 				 		<button id="mageAttackButton">Attack</button>
+ 				 		<span class="name">Esen "The Tinkerer"</span>
  				 		<span class="profession" style="display:none">Mage</span>
  				 		<ul class="skills">
  				 			<li>Atack</li>
@@ -78,19 +75,21 @@
 			 				<span  class="playerHealth">80</span>
 			 				<li>crit %</li>
 			 				<span  class="playerCrit">5</span>
- 				 			<li>Evade %</li>
+ 				 			<li>Evade</li>
  				 			<span  class="playerEvade">5</span>
  				 		</ul>
  				 	</div>
  				</div>
  			</div>
- 			<div class="row">
- 				<div id="minions" class="span9">
+ 			<div class="span30">
+ 				<button id="attack">Attack</button>
+ 			</div>
+ 			<div class="span30">
+ 				<div id="minions" class="span100">
  					<h2>The bad guys</h2>
-	 				<div class="minion" class="span3">
+	 				<div class="minion" class="span100">
 	 					<img src="assets/img/orc_2.gif" alt="" >
 	 					<span class="name">Orc</span>
-	 					<button id="orcAttackButton">Attack</button>
 	 					<ul class="skills">
 	 						<span class="race" style="display:none">Orc</span>
 	 						<li>Atack</li>
@@ -101,14 +100,13 @@
 	 						<span  class="minionHealth">120</span>
 	 						<li>crit %</li>
 	 						<span  class="minionCrit">5</span>
-	 						<li>Evade %</li>
+	 						<li>Evade</li>
 	 						<span  class="minionEvade">5</span>
 	 					</ul>
 	 				</div>
-	 				<div class="minion" class="span3">
+	 				<div class="minion" class="span100">
 	 					<img src="assets/img/werewolf.gif" alt="" >
 	 					<span class="name">Werewolf</span>
-	 					<button id="trollAttackButton">Attack</button>
 	 					<ul class="skills">
 	 						<span class="race" style="display:none">Werewolf</span>
 	 						<li>Atack</li>
@@ -119,14 +117,13 @@
 	 						<span  class="minionHealth">150</span>
 	 						<li>crit %</li>
 	 						<span  class="minionCrit">15</span>
-	 						<li>Evade %</li>
+	 						<li>Evade</li>
 	 						<span  class="minionEvade">25</span>
 	 					</ul>
 	 				</div>
-	 				<div class="minion" class="span3">
+	 				<div class="minion" class="span100">
 	 					<img src="assets/img/skelleton.gif" alt="" >
 	 					<span class="name">Skelleton</span>
-	 					<button id="trollAttackButton">Attack</button>
 	 					<ul class="skills">
 	 						<span class="race" style="display:none">Skelleton</span>
 	 						<li>Atack</li>
@@ -137,32 +134,15 @@
 	 						<span  class="minionHealth">70</span>
 	 						<li>crit %</li>
 	 						<span  class="minionCrit">10</span>
-	 						<li>Evade %</li>
+	 						<li>Evade</li>
 	 						<span  class="minionEvade">5</span>
 	 					</ul>
 	 				</div>
- 				</div>
- 				
- 				<div id="output" class="span9">
- 					<span id="outputText"></span>
- 				</div>
-
-<!--
- 				<div id="input" class="span5">
-					<textarea class="text_io"
-						type="text" 
-						id="prompt" 
-						name="prompt" 
-						placeholder="type a number and just a number"></textarea>
-					<button class="btn disabled" id="send">cuadratica</button>
-					<button class="btn disabled" id="suma">suma</button>
-				</div>
-		
-				<div id="output" class="span5">
-					<div class="text_io" id="console"></div>
-				</div>
--->				
-			</div><!-- .row -->
+ 				</div>				
+			</div>
+			<div id="output" class="span100">
+ 				<span id="outputText"></span>
+ 			</div>
 		</div><!-- #content -->
 		
     </body>
