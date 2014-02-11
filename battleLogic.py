@@ -15,7 +15,7 @@ def battleLogic(message):
             'defense':
             'crit':
             'evade':
-            'rol':
+            'role':
             'health'
             'status' (dict contain:)
                 'evade'
@@ -32,7 +32,8 @@ def battleLogic(message):
         5) If it's not a mage check the enemy defense
         6) Else, check if it does critical damage 
         7) Do the actual damage
-        8) Return the message with the health of the enemy and the 
+        8) reset roles to none
+        9) Return the message with the health of the enemy and the 
         status values changed. '''
     # Diccionaries:
     party = message.get("party")
@@ -40,36 +41,53 @@ def battleLogic(message):
 
     # Main functions used for battle logic
     def dead(health):
-        if health == 0:
+        ''' Checks death conditions'''
+        if health <= 0:
+            return True
+        elif health == 'R.I.P:':
             return True
         else:
             return False
 
     def evaded(evade):
+        ''' Checks if the evade succeeded '''
         if randint(1, 100) <= evade:
             return True
         else:
             return False
 
     def defended(attack, defense):
+        ''' Checks if the minion's defense is larger than the attackers attack 
+        thus defending himself'''
         if attack <= defense:
             return True
         else:
             return False
 
     def critic(crit):
+        ''' Checks if the ataker got a critical hit'''
         if randint(1, 100) <= crit:
             return True
         else:
             return False
 
     def damaged(health, attack, defense, crit):
+        ''' imprime datos en el serverLog sobre la acción de pelea
+        Checks if there was a critical and if so multiplies the dmg'''
         print "La vida : %s, el ataque: %s, la defensa: %s, (critico:%s)" % (health, attack, defense, crit)
         if crit is False:
             newHealth = health - (attack - defense)
         elif crit is True:
-            newHealth = health - ((attack * 2) - defense)
+            newHealth = health - (abs((attack * 1.3)) - defense)
         return newHealth
+
+    def resetRole(character):
+        ''' Resets the characters role so that it
+        won't attack or recieve attack the ext turn'''
+        print'el presonaje a resetear es %s y su role  antes es %s' % (character, character['role'])
+        character['role'] = None
+        print 'actualizando role'
+        print ' su role ahora es %s' % character['role']
 
     # Main battle logic goes here:
     for index, minion in enumerate(minions):
@@ -78,6 +96,9 @@ def battleLogic(message):
         evade = int(minions[index].get('evade'))
         health = int(minions[index].get('health'))
         if minions[index].get('role') == 'target':
+            # resetea el rol del enemigo para q no vuelva a ser atacado el sgte
+            # turno
+            resetRole(minions[index])
             if dead(health) is True:
                 minions[index]['status']['dead'] = True
                 print "%s ya esta muerto." % (name)
@@ -87,6 +108,9 @@ def battleLogic(message):
             else:
                 for i, hero in enumerate(party):
                     if party[i].get('role') == 'attacker':
+                        # Resetea el rol del atacante para que no vuelva a
+                        # atacar el sgte turno
+                        resetRole(party[i])
                         char = party[i].get('name')
                         print "%s) %s sera quien ataque" % (i, char)
                         print "%s) %s sera el target" % (index, name)
@@ -111,6 +135,9 @@ def battleLogic(message):
                             health, attack, defense, critStatus)
                         minions[index]['health'] = tempHealth
                         print "%s ha perdido %s puntos de vida a manos de %s" % (name, (health - minions[index].get('health')), char)
+                        if dead(tempHealth) is True:
+                            minions[index]['status']['dead'] = True
+                            print "%s  ha muerto." % (name)
     return message
 
 if __name__ == '__main__':

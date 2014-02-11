@@ -23,7 +23,7 @@ function loadStartingArrays(allCharactersArray) {
             "defense": characterDefense,
             "evade": characterEvade,
             "crit": characterCrit,
-            "role": 'None',
+            "role": null,
             "status": {
                 "evade": false,
                 "stun": false,
@@ -50,7 +50,7 @@ function loadStartingArrays(allCharactersArray) {
             "defense": characterDefense,
             "evade": characterEvade,
             "crit": characterCrit,
-            "role": 'None',
+            "role": null,
             "status": {
                 "evade": false,
                 "stun": false,
@@ -62,7 +62,7 @@ function loadStartingArrays(allCharactersArray) {
     });
 }
 
-/***
+/*** NO ESTA HECHA
 Evalua datos de los personajes buenos y los actualiza 
 además de imprimir su estado en la consola 
 ***/

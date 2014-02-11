@@ -96,12 +96,12 @@ $(document).ready(function() {
         // corregir esto para que reciba los mensajes adecuados
         // mensaje regresado x el server
         connection.onmessage = function(e) {
-            var server_message = JSON.parse(e.data);
+            allCharacters = JSON.parse(e.data);
             console.log("recibí esto del server: ");
-            console.log(server_message);
+            console.log(allCharacters);
 
-            var party = server_message.party;
-            var enemies = server_message.enemies;
+            var party = allCharacters.party;
+            var enemies = allCharacters.enemies;
             //actualiza enemigos
             enemiesAttacked(enemies);
             updateArray(allCharacters.enemies, enemies);
