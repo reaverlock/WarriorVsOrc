@@ -159,23 +159,25 @@ outline: none;
 	display: inline-block;
 }
 
-.deadText{
-	color: #D64040;
-}
-
 .playerText{
-	color: #5288E9;
+	color: #E61F1C;
 }
 
 .minionText {
-	color: #8BBF79;
+	color: #7663D4;
 }
+
+.deadText{
+	color: #8F1FA3;
+}
+
+.defendedText{
+	color: #C1D463;
+}
+
 
 .evadeText{
 	color: #E6BA3B;
 }
 
-.stunText{
-	color: grey;
-}
 

@@ -84,10 +84,16 @@ def battleLogic(message):
     def resetRole(character):
         ''' Resets the characters role so that it
         won't attack or recieve attack the ext turn'''
-        print'el presonaje a resetear es %s y su role  antes es %s' % (character, character['role'])
+
         character['role'] = None
-        print 'actualizando role'
-        print ' su role ahora es %s' % character['role']
+
+    # Esta funcion no me sirve aqui (la use y no deja que en el
+    # jQuery se evaluen las condiciones, le dejo como vestigial
+    def resetStatuses(character):
+        ''' resetea los statuses de los charcters para que no se
+        repitan en el siguiente turno'''
+        for item in character['status']:
+            character['status'][item] = False
 
     # Main battle logic goes here:
     for index, minion in enumerate(minions):
@@ -138,6 +144,7 @@ def battleLogic(message):
                         if dead(tempHealth) is True:
                             minions[index]['status']['dead'] = True
                             print "%s  ha muerto." % (name)
+
     return message
 
 if __name__ == '__main__':
