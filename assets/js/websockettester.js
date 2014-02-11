@@ -101,11 +101,10 @@ $(document).ready(function() {
             console.log(server_message);
 
             var party = server_message.party;
-            console.log(party);
             var enemies = server_message.enemies;
-            console.log(enemies);
             //actualiza enemigos
             enemiesAttacked(enemies);
+            updateArray(allCharacters.enemies, enemies);
             // actualiza personajes
             //characterAttacked(party);
 

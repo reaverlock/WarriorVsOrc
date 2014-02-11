@@ -93,7 +93,7 @@ function characterAttacked(partyArray) {
 
 /***
 Evalua datos de los MINIONS y los actualiza 
-además de imprimir su estadoo en la consola 
+además de imprimir su estado en la consola 
 ***/
 function enemiesAttacked(enemiesArray) {
     // por cada enemigo en el JSON
@@ -130,5 +130,12 @@ function enemiesAttacked(enemiesArray) {
                 }
             }
         });
+    }
+}
+
+function updateArray(oldArray, newArray) {
+    for (var i = 0; i < newArray.length; i++) {
+        oldArray[i].health = newArray[i].health;
+        // pensar si hay que actualizar los status
     }
 }
