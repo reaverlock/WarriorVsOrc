@@ -100,21 +100,33 @@ function enemiesAttacked(enemiesArray) {
     for (var i = 0; i < enemiesArray.length; i++) {
         // compara con todos los minions de la web
         $('.minion').each(function() {
+            //defino nombre
+            var name = $(this).find('.name').text();
             // si el nombre coincide con alguno
-            if (enemiesArray[i].name == $(this).find('.name').text()) {
-                console.log('encontré a: ' + $(this).find('.name').text());
-                // chequear cada condición
+            if (enemiesArray[i].name == name) {
+                console.log(enemiesArray[i].name === name);
+                // chequear cada condición y hace return para romper la funcion en las que es necesario
                 if (enemiesArray[i].status.evade == true) {
-                    $('#outputText').prepend('<p class="minionText evadeText">' + enemiesArray[i].name + ' esquivó el ataque</p>');
+                    $('#outputText').prepend('<p class="minionText evadeText">' + name + ' esquivó el ataque</p>');
+                    return console.log(name + ' esquiva el ataque');
                 } else if (enemiesArray[i].status.stun == true) {
-                    $('#outputText').prepend('<p class="minionText stunText">' + enemiesArray[i].name + ' fue aturdido por el ataque</p>');
+                    $('#outputText').prepend('<p class="minionText stunText">' + name + ' fue aturdido por el ataque</p>');
+                    return console.log(name + ' es aturdido');
                 } else if (enemiesArray[i].status.crit == true) {
-                    $('#outputText').prepend('<p class="minionText critText">' + enemiesArray[i].name + ' recibe un critico de daño </p>');
+                    $('#outputText').prepend('<p class="minionText critText">' + name + ' recibe un critico de daño </p>');
                 } else if (enemiesArray[i].status.defended == true) {
-                    $('#outputText').prepend('<p class="minionText defendedText">' + enemiesArray[i].name + ' se defiende del ataque </p>');
+                    $('#outputText').prepend('<p class="minionText defendedText">' + name + ' se defiende del ataque </p>');
+                    return console.log(name + ' se defiende del ataque');
                 } else if (enemiesArray[i].status.dead == true) {
-                    $('#outputText').prepend('<p class="minionText stunText">' + enemiesArray[i].name + ' ha muerto </p>');
+                    $('#outputText').prepend('<p class="minionText stunText">' + name + ' ha muerto </p>');
                     $(this).find('.minionHealth').text('R.I.P');
+                    return console.log(name + ' ha muerto (R.I.P)');
+                }
+                // si hay diferencia de health
+                if (enemiesArray[i].health < parseInt($(this).find('.minionHealth').text())) {
+                    var dmg = parseInt($(this).find('.minionHealth').text()) - enemiesArray[i].health;
+                    $('#outputText').prepend('<p class="minionText dmgText">' + name + ' sufre ' + dmg + ' puntos de daño</p>');
+                    $(this).find('.minionHealth').text(enemiesArray[i].health);
                 }
             }
         });
