@@ -35,61 +35,8 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    //carga array de personajes
-    $('.player').each(function() {
-        var name = $(this).find('.name').text();
-        var characterProfession = $(this).find('.profession').text();
-        var characterHealth = $(this).find('.playerHealth').text();
-        var characterAttack = $(this).find('.playerAttack').text();
-        var characterDefense = $(this).find('.playerDefense').text();
-        var characterCrit = $(this).find('.playerCrit').text();
-        var characterEvade = $(this).find('.playerEvade').text();
-        allCharacters.party.push({
-            "name": name,
-            "profession": characterProfession,
-            "health": characterHealth,
-            "attack": characterAttack,
-            "defense": characterDefense,
-            "evade": characterEvade,
-            "crit": characterCrit,
-            "role": 'None',
-            "status": {
-                "evade": false,
-                "stun": false,
-                "crit": false,
-                "defended": false,
-                "dead": false
-            }
-        });
-    });
-
-    // carga array de malos
-    $('.minion').each(function() {
-        var name = $(this).find('.name').text();
-        var characterProfession = $(this).find('.race').text();
-        var characterHealth = $(this).find('.minionHealth').text();
-        var characterAttack = $(this).find('.minionAttack').text();
-        var characterDefense = $(this).find('.minionDefense').text();
-        var characterCrit = $(this).find('.minionCrit').text();
-        var characterEvade = $(this).find('.minionEvade').text();
-        allCharacters.enemies.push({
-            "name": name,
-            "profession": characterProfession,
-            "health": characterHealth,
-            "attack": characterAttack,
-            "defense": characterDefense,
-            "evade": characterEvade,
-            "crit": characterCrit,
-            "role": 'None',
-            "status": {
-                "evade": false,
-                "stun": false,
-                "crit": false,
-                "defended": false,
-                "dead": false
-            }
-        });
-    });
+    //carga arrays
+    loadStartingArrays(allCharacters);
 
     // selector de enemigo (solo permite uno)
     $('.minion').on('click', function() {
@@ -109,7 +56,7 @@ $(document).ready(function() {
         }
     });
 
-    // funcion de boton genérica para todos
+    // funcion de boton Ataque
     $('#attack').on('click', function(e) {
         var attacker;
         var target;
@@ -131,13 +78,9 @@ $(document).ready(function() {
             allCharacters.enemies[target].role = 'target';
         }
 
-
-
         var message = allCharacters;
         connection.send(JSON.stringify(message)); // JSON.stringify(party) cambio aquí a party para ver que pasa
         console.log(JSON.stringify(message));
-
-
 
         // corregir esto para que reciba los mensajes adecuados
         // mensaje regresado x el server
@@ -146,23 +89,15 @@ $(document).ready(function() {
             console.log("recibí esto del server: ");
             console.log(server_message);
 
-            if (server_message == 'El objetivo esquivo') {
-                $('#output').prepend("<p class='evadeText'>" + server_message + "</p>");
-            } else if (server_message == 'No funciono el ataque') {
-                $('#output').prepend("<p>Hubo un error de calculo y no funcionó el ataque</p>");
-            } else {
-                $('#minions').find('.selected').find('.minionHealth').text(server_message.enemies[0].health);;
-                $('#output').prepend("<p class='playerText'>Pedrito ataca a Esen por " + (minionHealth - parseInt(server_message.enemies[0].health)) + " puntos de daño</p>");
-            }
-            server_message.enemies.splice(0, server_message.enemies.length);
-            server_message.party.splice(0, server_message.party.length);
-            //si muere
-            if (server_message < '1') {
-                $('#orcHealth').text("R.I.P");
-            }
+            var party = server_message.party;
+            var enemies = server_message.enemies;
+            // actualiza personajes
+            characterAttacked(party);
+            //actualiza enemigos
+            enemiesAttacked(enemies);
+
         }
         e.preventDefault();
-
 
     });
 
