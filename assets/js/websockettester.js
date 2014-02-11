@@ -19,7 +19,7 @@ $(document).ready(function() {
     $("#serveruri").val(server);
 
 
-    // assign event handler to the connect button
+    // Funcion que inicia la conexion al hacer click en el boton
     $("#connect").on("click", function(e) {
         var server = $("#serveruri").val();
         // crear conexion
@@ -35,19 +35,11 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    //carga arrays
+    //carga arrays con los valores iniciales con la funcion de 'functions.js'
     loadStartingArrays(allCharacters);
 
-    // selector de enemigo (solo permite uno)
-    $('.minion').on('click', function() {
-        if ($('#minions').find('.selected').length == 0) {
-            $(this).toggleClass('selected');
-        } else if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        }
-    });
 
-    // selector de player (solo permite uno)
+    // funcion para seleccionar personaje que ataca (solo permite uno)
     $('.player').on('click', function() {
         if ($('#party').find('.selected').length == 0) {
             $(this).toggleClass('selected');
@@ -56,11 +48,29 @@ $(document).ready(function() {
         }
     });
 
-    // funcion de boton Ataque
+    // funcion para seleccionar enemigo (solo permite uno)
+    $('.minion').on('click', function() {
+        if ($('#minions').find('.selected').length == 0) {
+            $(this).toggleClass('selected');
+        } else if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+    });
+
+
+    /*****
+    Funcion del botón de ataque, inicia la mecánica del juego
+     y envía los datos si hay un personaje y un enemigo seleccionados
+    *****/
     $('#attack').on('click', function(e) {
         var attacker;
         var target;
 
+        // confirma que has seleccionado a un personaje y un oponente
+        if ($('#party').find('.selected').length == 0 || $('#minions').find('.selected').length == 0) {
+            $('#outputText').prepend('<p class="errorText"> No has seleccionado atacante Y oponente </p>');
+            return console.log('error, no habia seleccionado todo lo necesario');
+        }
         // busca quienes hay seleccionados en ambas columnas y determina su posición en el array
         if ($('#party').find('.selected')) {
             attacker = $('#party').find('.selected').index() - 1; //'-1' x q index tira numeros ordinales
@@ -68,8 +78,9 @@ $(document).ready(function() {
         if ($('#minions').find('.selected')) {
             target = $('#minions').find('.selected').index() - 1; //'-1' x q index tira numeros ordinales
         }
-        //Modifica los valores de roles
+        // Marca al player seleccionado como atacante
         allCharacters.party[attacker].role = 'attacker';
+        // si el atacante es el mago marca a todos los enemigos como oponentes
         if (allCharacters.party[attacker].profession == 'Mage') {
             for (var i = 0; i < allCharacters.enemies.length; i++) {
                 allCharacters.enemies[i].role = 'target';

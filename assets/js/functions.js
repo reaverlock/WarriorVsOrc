@@ -1,6 +1,9 @@
 /***** 
 Carga los valores iniciales de los 
 elementos en web dentro del JSON inicial 
+para agregar mas propiedades hacerlo aquí.
+iguala los textos del HTML con los contenidos de las propiedades
+el sub objeto "status" incluye todos los estados posibles
 ********/
 function loadStartingArrays(allCharactersArray) {
     //carga array de personajes
@@ -61,7 +64,7 @@ function loadStartingArrays(allCharactersArray) {
 
 /***
 Evalua datos de los personajes buenos y los actualiza 
-además de imprimir su estadoo en la consola 
+además de imprimir su estado en la consola 
 ***/
 function characterAttacked(partyArray) {
     for (var i = 0; i < partyArray.length; i++) {
@@ -93,11 +96,13 @@ Evalua datos de los MINIONS y los actualiza
 además de imprimir su estadoo en la consola 
 ***/
 function enemiesAttacked(enemiesArray) {
+    // por cada enemigo en el JSON
     for (var i = 0; i < enemiesArray.length; i++) {
-        // chequea todos los players de la web
+        // compara con todos los minions de la web
         $('.minion').each(function() {
             // si el nombre coincide con alguno
             if (enemiesArray[i].name == $(this).find('.name').text()) {
+                console.log('encontré a: ' + $(this).find('.name').text());
                 // chequear cada condición
                 if (enemiesArray[i].status.evade == true) {
                     $('#outputText').prepend('<p class="minionText evadeText">' + enemiesArray[i].name + ' esquivó el ataque</p>');
