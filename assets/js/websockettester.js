@@ -14,6 +14,26 @@ var allCharacters = {
 
 $(document).ready(function() {
 
+    //OJO Pongo aquí lo de los sonidos porque depende de Jquery y no entiendo bien aún como funca. 
+    $.ionSound({
+            sounds: [
+                "beer_can_opening",
+                "bell_ring",
+            ],
+            path: "assets/sounds/",
+            multiPlay: true,
+            volume: "1.0"
+        });
+
+         $(".player").on("click", function(){
+            $.ionSound.play("beer_can_opening");
+        });
+
+        $("#attack").on("click", function(){
+            $.ionSound.play("bell_ring");
+        });
+
+
     // load the saved serverURI into the serveruri input
     var server = localStorage.getItem(KEY_SERVER_URI);
     $("#serveruri").val(server);
