@@ -4,11 +4,11 @@ from random import randint
 
 
 def battleLogic(message):
-    '''The idea is to check here what happend in the battle. 
+    '''The idea is to check here what happend in the battle.
     message input is a dictionary that contains:
         1) Dict of lists ('party') and Dict of lists ('enemies')
-            - Both contain a list of characters (heroes/minions). 
-            - Every character having: 
+            - Both contain a list of characters (heroes/minions).
+            - Every character having:
             'name'
             'profession':
             'attack':
@@ -26,14 +26,14 @@ def battleLogic(message):
     The program sets the functions that will help to develop the
     game logic. Then, it checks in order:
         1) For every minion that is a target
-        2) If the enemy it's alive. 
-        3) If the enemy doesn't evade. 
+        2) If the enemy it's alive.
+        3) If the enemy doesn't evade.
         4) Check who the attacker is
         5) If it's not a mage check the enemy defense
-        6) Else, check if it does critical damage 
+        6) Else, check if it does critical damage
         7) Do the actual damage
         8) reset roles to none
-        9) Return the message with the health of the enemy and the 
+        9) Return the message with the health of the enemy and the
         status values changed. '''
     # Diccionaries:
     party = message.get("party")
@@ -57,7 +57,7 @@ def battleLogic(message):
             return False
 
     def defended(attack, defense):
-        ''' Checks if the minion's defense is larger than the attackers attack 
+        ''' Checks if the minion's defense is larger than the attackers attack
         thus defending himself'''
         if attack <= defense:
             return True
@@ -71,14 +71,26 @@ def battleLogic(message):
         else:
             return False
 
-    def damaged(health, attack, defense, crit):
+    def melee_attack(health, attack, defense, crit):
         ''' imprime datos en el serverLog sobre la acción de pelea
-        Checks if there was a critical and if so multiplies the dmg'''
-        print "La vida : %s, el ataque: %s, la defensa: %s, (critico:%s)" % (health, attack, defense, crit)
+        Checks if there was a critical and if so multiplies the dmg,
+        reducting form it the defenses of the enemy'''
+        print """La vida : %s,
+        el ataque: %s, (critico:%s)
+        la defensa: %s,
+        """ % (health, attack, crit, defense)
         if crit is False:
             newHealth = health - (attack - defense)
         elif crit is True:
             newHealth = health - (abs((attack * 1.3)) - defense)
+        return newHealth
+
+    def mage_attack(attack, health, crit):
+        "Chek if there was a critical and if so, multiplies the dmg"
+        if crit is False:
+            newHealth = health - attack
+        elif crit is True:
+            newHealth = health - (attack * 1.3)
         return newHealth
 
     def resetRole(character):
@@ -114,9 +126,6 @@ def battleLogic(message):
             else:
                 for i, hero in enumerate(party):
                     if party[i].get('role') == 'attacker':
-                        # Resetea el rol del atacante para que no vuelva a
-                        # atacar el sgte turno
-                        resetRole(party[i])
                         char = party[i].get('name')
                         print "%s) %s sera quien ataque" % (i, char)
                         print "%s) %s sera el target" % (index, name)
@@ -137,14 +146,19 @@ def battleLogic(message):
                         party[i]['status']['crit'] = critStatus
                         if critStatus is True:
                             print "Hizo un ataque critico!"
-                        tempHealth = damaged(
-                            health, attack, defense, critStatus)
+                        if party[i].get('profession') != 'Mage':
+                            tempHealth = melee_attack(
+                                health, attack, defense, critStatus)
+                        else:
+                            tempHealth = mage_attack(
+                                attack, health, critStatus)
                         minions[index]['health'] = tempHealth
                         print "%s ha perdido %s puntos de vida a manos de %s" % (name, (health - minions[index].get('health')), char)
                         if dead(tempHealth) is True:
                             minions[index]['status']['dead'] = True
                             print "%s  ha muerto." % (name)
-
+    for i, hero in enumerate(party):
+        resetRole(party[i])
     return message
 
 if __name__ == '__main__':

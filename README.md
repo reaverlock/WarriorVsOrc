@@ -9,10 +9,13 @@ CONSEGUIDO:
 - corregido error donde el json enviado no era una mutacion del json recibido anteriormente
 - Colores distintos pra cada efecto
 - Corregido error donde los statuses temporales quedaban como permanentes
+- Corregido el bug del mago
+- Corregido el bug de las muertes infinitas
 
 POR HACER Y PROBAR:
-- El mago no ataca a todos
-- Que no salga el mensaje de cada personaje muerto una vez que ya salió (quizá quitandolo del for loop?)
+- Arreglar el modal (mensaje de GANASTE!)
+- Escoger mejores sonidos. 
+- Implementar la devolución de ataque de los minions
 
 
 

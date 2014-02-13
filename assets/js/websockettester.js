@@ -25,10 +25,6 @@ $(document).ready(function() {
             volume: "1.0"
         });
 
-         $(".player").on("click", function(){
-            $.ionSound.play("beer_can_opening");
-        });
-
         $("#attack").on("click", function(){
             $.ionSound.play("bell_ring");
         });
@@ -62,6 +58,7 @@ $(document).ready(function() {
     // funcion para seleccionar personaje que ataca (solo permite uno)
     $('.player').on('click', function() {
         if ($('#party').find('.selected').length == 0) {
+            $.ionSound.play("beer_can_opening");
             $(this).toggleClass('selected');
         } else if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -71,7 +68,10 @@ $(document).ready(function() {
     // funcion para seleccionar enemigo (solo permite uno)
     $('.minion').on('click', function() {
         if ($('#minions').find('.selected').length == 0) {
-            $(this).toggleClass('selected');
+            $.ionSound.play("beer_can_opening");
+            if ($(this).hasClass('unselectable') == false){
+                $(this).toggleClass('selected');
+            }    
         } else if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         }

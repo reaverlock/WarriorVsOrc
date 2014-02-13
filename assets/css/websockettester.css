@@ -4,6 +4,78 @@
 body {
 	text-align: center;
 }
+/* Modal CSS*/
+.modal {
+	position: absolute;
+	float: center;
+	background-color: #fff;
+	border: 1px solid #999;
+	border: 1px solid rgba(0,0,0,.2);
+	border-radius: 6px;
+	-webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+	box-shadow: 0 3px 9px rgba(0,0,0,.5);
+	background-clip: padding-box;
+	outline: 0;
+	margin: auto;
+	width: 500px;
+	z-index: 99;
+
+}
+.modal-title {
+	margin: 0;
+	line-height: 1.42857143;
+	font-size: 18px;
+}
+.modal-footer {
+	margin-top: 15px;
+	padding: 19px 20px 20px;
+	text-align: right;
+	border-top: 1px solid #e5e5e5;
+}
+.btn-default {
+	color: #333;
+	background-color: #fff;
+	border-color: #ccc;
+}
+.btn {
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 400;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	background-image: none;
+	border: 1px solid transparent;
+	white-space: nowrap;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.btn-primary {
+	color: #fff;
+	background-color: #428bca;
+	border-color: #357ebd;
+}
+.close {
+	float: right;
+	font-size: 21px;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .2;
+}
+
+.hide {
+	display:none;
+}
+
+/*End of Modal CSS*/
 
 .span100{
 	width: 100%;

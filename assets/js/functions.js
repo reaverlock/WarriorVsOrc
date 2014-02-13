@@ -56,7 +56,8 @@ function loadStartingArrays(allCharactersArray) {
                 "stun": false,
                 "crit": false,
                 "defended": false,
-                "dead": false
+                "dead": false,
+                "alreadyDead": false
             }
         });
     });
@@ -123,9 +124,14 @@ function enemiesAttacked(enemiesArray) {
                     enemiesArray[i].status.defended = false;
                     console.log(name + ' se defiende del ataque');
                 } else if (enemiesArray[i].status.dead == true) {
-                    $('#outputText').prepend('<p class="minionText deadText">' + name + ' ha muerto </p>');
-                    $(this).find('.minionHealth').text('R.I.P');
-                    console.log(name + ' ha muerto (R.I.P)');
+                    if (enemiesArray[i].status.alreadyDead == false) {
+                        $('#outputText').prepend('<p class="minionText deadText">' + name + ' ha muerto </p>');
+                        $(this).find('.minionHealth').text('R.I.P');
+                        console.log(name + ' ha muerto (R.I.P)');
+                        $(this).removeClass('selected');
+                        $(this).addClass('unselectable');
+                        enemiesArray[i].status.alreadyDead = true;
+                    }    
                 }
                 // si hay diferencia de health
                 if (enemiesArray[i].health < parseInt($(this).find('.minionHealth').text())) {
