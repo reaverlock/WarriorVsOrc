@@ -19,6 +19,7 @@ $(document).ready(function() {
             sounds: [
                 "beer_can_opening",
                 "bell_ring",
+                "swords",
             ],
             path: "assets/sounds/",
             multiPlay: true,
@@ -27,7 +28,7 @@ $(document).ready(function() {
 
         $("#attack").on("click", function(){
             $.ionSound.play("bell_ring");
-        });
+        })
 
 
     // load the saved serverURI into the serveruri input
@@ -58,8 +59,10 @@ $(document).ready(function() {
     // funcion para seleccionar personaje que ataca (solo permite uno)
     $('.player').on('click', function() {
         if ($('#party').find('.selected').length == 0) {
-            $.ionSound.play("beer_can_opening");
-            $(this).toggleClass('selected');
+            if ($(this).hasClass('unselectable') == false){
+                $(this).toggleClass('selected');
+                $.ionSound.play("beer_can_opening");
+            }    
         } else if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         }
@@ -68,9 +71,9 @@ $(document).ready(function() {
     // funcion para seleccionar enemigo (solo permite uno)
     $('.minion').on('click', function() {
         if ($('#minions').find('.selected').length == 0) {
-            $.ionSound.play("beer_can_opening");
             if ($(this).hasClass('unselectable') == false){
                 $(this).toggleClass('selected');
+                $.ionSound.play("beer_can_opening");
             }    
         } else if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -122,13 +125,19 @@ $(document).ready(function() {
 
             var party = allCharacters.party;
             var enemies = allCharacters.enemies;
+            
             //actualiza enemigos
             enemiesAttacked(enemies);
-            updateArray(allCharacters.enemies, enemies);
-            // actualiza personajes
-            //characterAttacked(party);
-
-
+            // actualiza personajes (Aquí tenemos que meter un delay + un sonido tal vez)
+            setTimeout(function(){
+                characterAttacked(party);
+                $.ionSound.play("bell_ring");
+                $.ionSound.play("swords");
+                },1500);
+            // hace updates de los arrays. ¿por separado?
+            updateArrayMinions(allCharacters.enemies, enemies);
+            updateArrayParty(allCharacters.party, party);
+            checkGameState(allCharacters);
         }
         e.preventDefault();
 

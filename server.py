@@ -8,6 +8,7 @@ from tornado.escape import json_decode, json_encode
 
 from battleLogic import battleLogic
 
+
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
@@ -18,8 +19,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print "Client disconnected"
 
     def on_message(self, message):
-        print 'mensaje recibido: '
-        print message
+        #print 'mensaje recibido: '
+        #print message
         temp = json_decode(message)
         message = json_encode(battleLogic(temp))
         self.write_message(message)

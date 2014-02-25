@@ -29,7 +29,8 @@ function loadStartingArrays(allCharactersArray) {
                 "stun": false,
                 "crit": false,
                 "defended": false,
-                "dead": false
+                "dead": false,
+                "alreadyDead": false
             }
         });
     });
@@ -62,36 +63,6 @@ function loadStartingArrays(allCharactersArray) {
         });
     });
 }
-
-/*** NO ESTA HECHA
-Evalua datos de los personajes buenos y los actualiza 
-además de imprimir su estado en la consola 
-***/
-function characterAttacked(partyArray) {
-    for (var i = 0; i < partyArray.length; i++) {
-        // chequea todos los players de la web
-        $('.player').each(function() {
-            // si el nombre coincide con alguno
-            if (partyArray[i].name == $(this).find('.name').text()) {
-                // chequear cada condición
-                // si esquiva da ese mensaje
-                if (partyArray[i].status.evade == true) {
-                    $('#outputText').prepend('<p class="playerText evadeText">' + partyArray[i].name + ' esquivó el ataque</p>');
-                } else if (partyArray[i].status.stun == true) {
-                    $('#outputText').prepend('<p class="playerText stunText">' + partyArray[i].name + ' fue aturdido por el ataque</p>');
-                } else if (partyArray[i].status.crit == true) {
-                    $('#outputText').prepend('<p class="playerText critText">' + partyArray[i].name + ' recibe un critico de daño </p>');
-                } else if (partyArray[i].status.defended == true) {
-                    $('#outputText').prepend('<p class="playerText defendedText">' + partyArray[i].name + ' se defiende del ataque </p>');
-                } else if (partyArray[i].status.dead == true) {
-                    $('#outputText').prepend('<p class="playerText stunText">' + partyArray[i].name + ' ha muerto </p>');
-                    $(this).find('.playerHealth').text('R.I.P');
-                }
-            }
-        });
-    }
-}
-
 /***
 Evalua datos de los MINIONS y los actualiza 
 además de imprimir su estado en la consola 
@@ -139,14 +110,97 @@ function enemiesAttacked(enemiesArray) {
                     $('#outputText').prepend('<p class="minionText dmgText">' + name + ' sufre ' + dmg + ' puntos de daño</p>');
                     $(this).find('.minionHealth').text(enemiesArray[i].health);
                 }
-
             }
         });
 
+    };
+    $('#outputText').prepend('<p class="minionText evadeText"> ******** Party Attack!! ******** </p>');
+}
+/*** NO ESTA HECHA
+Evalua datos de los personajes buenos y los actualiza 
+además de imprimir su estado en la consola 
+***/
+function characterAttacked(partyArray) {
+    for (var i = 0; i < partyArray.length; i++) {
+        // chequea todos los players de la web
+        $('.player').each(function() {
+            //defino nombre
+            var name = $(this).find('.name').text();
+            // si el nombre coincide con alguno
+            if (partyArray[i].name == name) {
+                // chequear cada condición
+                if (partyArray[i].status.evade == true) {
+                    $('#outputText').prepend('<p class="playerText evadeText">' + name + ' esquivó el ataque</p>');
+                    partyArray[i].status.evade = false;
+                    console.log(name + ' esquiva el ataque');
+                } else if (partyArray[i].status.stun == true) {
+                    $('#outputText').prepend('<p class="playerText stunText">' + name + ' fue aturdido por el ataque</p>');
+                    partyArray[i].status.stun = false;
+                    console.log(name + ' es aturdido');
+                } else if (partyArray[i].status.crit == true) {
+                    $('#outputText').prepend('<p class="playerText critText">' + name + ' recibe un critico de daño </p>');
+                    partyArray[i].status.crit = false;
+                } else if (partyArray[i].status.defended == true) {
+                    $('#outputText').prepend('<p class="playerText defendedText">' + name + ' se defiende del ataque </p>');
+                    partyArray[i].status.defended = false;
+                    console.log(name + ' se defiende del ataque');
+                } else if (partyArray[i].status.dead == true) {
+                    if (partyArray[i].status.alreadyDead == false) {
+                        $('#outputText').prepend('<p class="playerText deadText">' + name + ' ha muerto </p>');
+                        $(this).find('.playerHealth').text('R.I.P');
+                        console.log(name + ' ha muerto (R.I.P)');
+                        $(this).removeClass('selected');
+                        $(this).addClass('unselectable');
+                        partyArray[i].status.alreadyDead = true;
+                    }
+                }
+                // si hay diferencia de health
+                if (partyArray[i].health < parseInt($(this).find('.playerHealth').text())) {
+                    var dmg = parseInt($(this).find('.playerHealth').text()) - partyArray[i].health;
+                    $('#outputText').prepend('<p class="playerText dmgText">' + name + ' sufre ' + dmg + ' puntos de daño</p>');
+                    $(this).find('.playerHealth').text(partyArray[i].health);
+                }
+            }
+        });
+
+    };
+    $('#outputText').prepend('<p class="minionText evadeText"> ******** Minions Attack!! ******** </p>');
+}
+
+// Función que revisa el estado del juego para ver si ya se ganó o perdió.
+function checkGameState(allCharacters){
+    console.log("Chekeando el estado del juego...")
+    var party = allCharacters.party;
+    var enemies = allCharacters.enemies;
+    var deadEnemys = 0;
+    var deadHeroes = 0;
+    for (var i = 0; i < enemies.length; i++){
+        if (enemies[i].status.alreadyDead == true){
+            deadEnemys += 1;
+        }
+    }
+    for (var i = 0; i < party.length; i++){
+        if (party[i].status.alreadyDead == true){
+            deadHeroes += 1;
+        }
+    }
+    if (deadHeroes >= party.length) {
+        console.log("Perdiste, pero no te preocupes, el programa no lo sabe.");
+        //2) El modal debería tener un botón para volver a jugar que es el que resetea todo y otro de exit().
+    } else if (deadEnemys >= enemies.length) {
+        console.log("Ganaste pero el programa aún no lo sabe")
+        //3) Mostrar el modal (GANASTE)
+        //4) Este también tendría un botón pa volver a jugar y otro de exit(). 
     }
 }
 
-function updateArray(oldArray, newArray) {
+function updateArrayMinions(oldArray, newArray) {
+    for (var i = 0; i < newArray.length; i++) {
+        oldArray[i].health = newArray[i].health;
+        // pensar si hay que actualizar los status
+    }
+}
+function updateArrayParty(oldArray, newArray) {
     for (var i = 0; i < newArray.length; i++) {
         oldArray[i].health = newArray[i].health;
         // pensar si hay que actualizar los status

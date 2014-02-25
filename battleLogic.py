@@ -2,7 +2,6 @@
 
 from random import randint
 
-
 def battleLogic(message):
     '''The idea is to check here what happend in the battle.
     message input is a dictionary that contains:
@@ -75,10 +74,6 @@ def battleLogic(message):
         ''' imprime datos en el serverLog sobre la acción de pelea
         Checks if there was a critical and if so multiplies the dmg,
         reducting form it the defenses of the enemy'''
-        print """La vida : %s,
-        el ataque: %s, (critico:%s)
-        la defensa: %s,
-        """ % (health, attack, crit, defense)
         if crit is False:
             newHealth = health - (attack - defense)
         elif crit is True:
@@ -95,7 +90,7 @@ def battleLogic(message):
 
     def resetRole(character):
         ''' Resets the characters role so that it
-        won't attack or recieve attack the ext turn'''
+        won't attack or recieve attack the next turn'''
 
         character['role'] = None
 
@@ -108,58 +103,127 @@ def battleLogic(message):
             character['status'][item] = False
 
     # Main battle logic goes here:
-    for index, minion in enumerate(minions):
-        name = minions[index].get('name')
-        defense = int(minions[index].get('defense'))
-        evade = int(minions[index].get('evade'))
-        health = int(minions[index].get('health'))
-        if minions[index].get('role') == 'target':
-            # resetea el rol del enemigo para q no vuelva a ser atacado el sgte
-            # turno
-            resetRole(minions[index])
-            if dead(health) is True:
-                minions[index]['status']['dead'] = True
-                print "%s ya esta muerto." % (name)
-            elif evaded(evade) is True:
-                minions[index]['status']['evade'] = True
+    def partyAttack(party, minions):
+        print "**************"
+        print "Players Attack!"
+        print "**************"
+        for index, minion in enumerate(minions):
+            name = minions[index].get('name')
+            defense = int(minions[index].get('defense'))
+            evade = int(minions[index].get('evade'))
+            health = int(minions[index].get('health'))
+            if minions[index].get('role') == 'target':
+                if dead(health) is True:
+                    minions[index]['status']['dead'] = True
+                    print "%s ya esta muerto." % (name)
+                elif evaded(evade) is True:
+                    minions[index]['status']['evade'] = True
+                    print "%s ha logrado evadir el ataque." % (name)
+                else:
+                    for i, hero in enumerate(party):
+                        if party[i].get('role') == 'attacker':
+                            char = party[i].get('name')
+                            print "%s sera quien ataque" % (char)
+                            print "%s sera el target" % (name)
+                            #print "Su defensa es %s" % (defense)
+                            #print "Su probabiliadd de evadir: %s" % (evade)
+                            #print "Su vida: %s " % (health)
+                            attack = int(party[i].get('attack'))
+                            #print "Su ataque es de: %s" % (attack)
+                            crit = int(party[i].get('crit'))
+                            #print "Su probabilidad de hacer critico es: %s " % (crit)
+                            if party[i].get('profession') != 'Mage':
+                                if defended(attack, defense) is True:
+                                    minions[index]['status']['defended'] = True
+                                    print "%s ha logrado bloquear el ataque de %s" % (name, char)
+                            else:
+                                pass
+                            critStatus = critic(crit)
+                            party[i]['status']['crit'] = critStatus
+                            if critStatus is True:
+                                print "Hizo un ataque critico!"
+                            if party[i].get('profession') != 'Mage':
+                                tempHealth = melee_attack(
+                                    health, attack, defense, critStatus)
+                            else:
+                                tempHealth = mage_attack(
+                                    attack, health, critStatus)
+                            minions[index]['health'] = tempHealth
+                            print "%s tenia %s de vida, ahora solo tiene: %s por culpa de %s" % (name, health, minions[index].get('health'), char)
+                            if dead(tempHealth) is True:
+                                minions[index]['status']['dead'] = True
+                                print "%s  ha muerto." % (name)
+            print "*********"
+            print ''
+    
+    def minionAttack(party, minions):
+        print "**************"
+        print "Minions Attack!"
+        print "**************"
+        for t, target in enumerate(minions):
+            temp = 0
+            if minions[t].get('role') == 'target':
+                resetRole(minions[t])
+                print "%s tiene el role de: %s " % (minions[t].get('name'), minions[t].get('role'))
+        print temp
+        index = randint(0, 2)
+        while party[index].get('dead') is True:
+            index = (index + 1) % 3
+        name = party[index].get('name')
+        defense = int(party[index].get('defense'))
+        evade = int(party[index].get('evade'))
+        health = int(party[index].get('health'))
+        if dead(health) is True:
+            party[index]['status']['dead'] = True
+            print "%s ya esta muerto." % (name)
+        else:
+            if evaded(evade) is True:
+                party[index]['status']['evade'] = True
                 print "%s ha logrado evadir el ataque." % (name)
             else:
-                for i, hero in enumerate(party):
-                    if party[i].get('role') == 'attacker':
-                        char = party[i].get('name')
-                        print "%s) %s sera quien ataque" % (i, char)
-                        print "%s) %s sera el target" % (index, name)
-                        print "Su defensa es %s" % (defense)
-                        print "Su probabiliadd de evadir: %s" % (evade)
-                        print "Su vida: %s " % (health)
-                        attack = int(party[i].get('attack'))
-                        print "Su ataque es de: %s" % (attack)
-                        crit = int(party[i].get('crit'))
-                        print "Su probabilidad de hacer critico es: %s " % (crit)
-                        if party[i].get('profession') != 'Mage':
-                            if defended(attack, defense) is True:
-                                minions[index]['status']['defended'] = True
-                                print "%s ha logrado bloquear el ataque de %s" % (name, char)
-                        else:
-                            pass
-                        critStatus = critic(crit)
-                        party[i]['status']['crit'] = critStatus
-                        if critStatus is True:
-                            print "Hizo un ataque critico!"
-                        if party[i].get('profession') != 'Mage':
-                            tempHealth = melee_attack(
-                                health, attack, defense, critStatus)
-                        else:
-                            tempHealth = mage_attack(
-                                attack, health, critStatus)
-                        minions[index]['health'] = tempHealth
-                        print "%s ha perdido %s puntos de vida a manos de %s" % (name, (health - minions[index].get('health')), char)
-                        if dead(tempHealth) is True:
-                            minions[index]['status']['dead'] = True
-                            print "%s  ha muerto." % (name)
+                i = randint(0, 2)
+                # resetea el rol del enemigo
+                #para q no vuelva a ser atacado el sgte turno
+                resetRole(minions[i])
+                char = minions[i].get('name')
+                print "%s sera quien ataque" % (char)
+                print "%s sera el target" % (name)
+                #print "Su defensa es %s" % (defense)
+                #print "Su probabiliadd de evadir: %s" % (evade)
+                #print "Su vida: %s " % (health)
+                attack = int(minions[i].get('attack'))
+                #print "Su ataque es de: %s" % (attack)
+                crit = int(minions[i].get('crit'))
+                #print "Su probabilidad de hacer critico es: %s " % (crit)
+                if minions[i].get('profession') != 'Mage':
+                    if defended(attack, defense) is True:
+                        party[index]['status']['defended'] = True
+                        print "%s ha logrado bloquear el ataque de %s" % (name, char)
+                else:
+                    pass
+                critStatus = critic(crit)
+                minions[i]['status']['crit'] = critStatus
+                if critStatus is True:
+                    print "Hizo un ataque critico!"
+                tempHealth = melee_attack(
+                    health, attack, defense, critStatus)
+                party[index]['health'] = tempHealth
+                print "%s tenia %s de vida, ahora solo tiene: %s por culpa de %s" % (name, health, party[index].get('health'), char)
+                if dead(tempHealth) is True:
+                    party[index]['status']['dead'] = True
+                    print "%s  ha muerto." % (name)
+                print "*********"
+                print ''
+
+    #Llamamos las dos principales funciones:
+    partyAttack(party, minions)
+    minionAttack(party, minions)
+    
+    #ResetRole
     for i, hero in enumerate(party):
         resetRole(party[i])
     return message
+
 
 if __name__ == '__main__':
     battleLogic()
